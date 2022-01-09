@@ -1,5 +1,10 @@
 #include "volumetric_bouligand_minkowski.hpp"
 
+/**
+ * Get the maximum gray intensity of a given gray scale image.
+ * @param gray_scale_image A gray scale image.
+ * @return the maximum gray intensity of a gray scale image. 
+*/
 uint get_maximum_gray_intensity(Mat gray_scale_image){
     uint max_gray_value = 0;
     uint pixel_value;
@@ -17,7 +22,16 @@ uint get_maximum_gray_intensity(Mat gray_scale_image){
     return max_gray_value;
 }
 
-
+/**
+ *  Compute a tridimensional (volumetric) euclidian map. The volumetric euclidian map is created
+ *  from a gray scale image, where the X and Y coordinates are preserved and the Z coordinate is 
+ *  composed by the gray instensities. The voxels locations (x, y, z) corresponding to the gray
+ *  values are filled with 0 and the remaining positions are filled with the euclidian distance
+ *  between their coordinates (x', y', z') and the nearest voxel (x, y, z).
+ *  @param basins_image A gray scale image with values in the range 0 - 255.
+ *  @param offset The margin size in X, Y and Z.
+ *  @returns the tridimensional euclidian map of the image 'basins_image'.
+*/
 Mat tridimensional_euclidian_map(Mat basins_image, int offset){
     uint pixel_value;
     uint max_gray_value = get_maximum_gray_intensity(basins_image);
@@ -88,6 +102,13 @@ Mat tridimensional_euclidian_map(Mat basins_image, int offset){
     return edm;
 }
 
+/**
+ * Run the Volumetric Bouligand-Minkowski texture descriptor.
+ * @param grayscale_image A grayscale image.
+ * @param max_radius The maximum euclidian distance value to consider when creating the 
+ * feature array.
+ * @return a vector with the cumulative sums among the euclidian distances <= 'max_radius'.
+*/
 vector<int> volumetric_bouligand_minkowski(Mat grayscale_image, int max_radius){
     Mat edt = tridimensional_euclidian_map(grayscale_image, max_radius);
 
@@ -97,9 +118,10 @@ vector<int> volumetric_bouligand_minkowski(Mat grayscale_image, int max_radius){
     map_height = edt.size[1];
     map_depth = edt.size[2];
 
-    // Sort map values.
     float *edt_array = (float*) edt.data;
 
+    // To achieve a better performance (of time), the values of the EDT are usually sorted.
+    // Using a map assures that the values will be in an asceding order.
     map<float, int> distances_occurrences;
     char key[10];
 
