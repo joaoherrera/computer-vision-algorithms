@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <math.h>
 #include <opencv4/opencv2/core.hpp>
-#include <unordered_map>
 #include <bits/stdc++.h>
 
 using namespace std;
