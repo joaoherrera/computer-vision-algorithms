@@ -88,7 +88,7 @@ Mat tridimensional_euclidian_map(Mat basins_image, int offset){
     return edm;
 }
 
-int* volumetric_bouligand_minkowski(Mat grayscale_image, int max_radius){
+vector<int> volumetric_bouligand_minkowski(Mat grayscale_image, int max_radius){
     Mat edt = tridimensional_euclidian_map(grayscale_image, max_radius);
 
     int map_width, map_height, map_depth;
@@ -101,7 +101,7 @@ int* volumetric_bouligand_minkowski(Mat grayscale_image, int max_radius){
     float *edt_array = (float*) edt.data;
     sort(edt_array, edt_array + (map_width * map_height * map_depth));
 
-    unordered_map<string, int> distances_occurrences;
+    map<float, int> distances_occurrences;
     char key[10];
 
     // Get the occurrences of each existing value in the array.
@@ -109,17 +109,20 @@ int* volumetric_bouligand_minkowski(Mat grayscale_image, int max_radius){
     // of a given distance into different buckets due to insignificant decimal places.
     for(int i=0; i<map_width * map_height * map_depth; ++i){
         sprintf(key, "%.2f", edt_array[i]);
-        distances_occurrences[key] += 1;
+        distances_occurrences[atof(key)] += 1;
     }
 
-    
-    // printf("%d \n", distances_occurrences.bucket_count());
-        
+    vector<int> distances_acc;
+    int cumsum = 0;
 
-    // for(int i=0; i<map_width * map_height * map_depth; i++){
-    //     printf("%.2f ", edt_array[i]);
-    // }
-    // printf("\n");
+    for(auto i = distances_occurrences.begin(); i != distances_occurrences.end(); ++i){
+        if(i->first <= max_radius){
+            cumsum += i->second;
+            distances_acc.push_back(cumsum);
+        }
+        else
+            break;
+    }
 
-    return NULL;
+    return distances_acc;
 }

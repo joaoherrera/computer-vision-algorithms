@@ -2,7 +2,7 @@
 #include <time.h>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
-#include "extras/texture_descriptors/volumetric_bouligand_minkowski.hpp"
+#include "texture_descriptors/volumetric_bouligand_minkowski.hpp"
 
 using namespace std;
 using namespace cv;
@@ -28,5 +28,5 @@ Mat create_random_image(int width, int height){
 int main(int argc, char *argv[]){
     Mat image = create_random_image(5, 5);
 
-    volumetric_bouligand_minkowski(image, 10);
+    vector<int> texture_array = volumetric_bouligand_minkowski(image, 10);
 }
