@@ -99,7 +99,6 @@ vector<int> volumetric_bouligand_minkowski(Mat grayscale_image, int max_radius){
 
     // Sort map values.
     float *edt_array = (float*) edt.data;
-    sort(edt_array, edt_array + (map_width * map_height * map_depth));
 
     map<float, int> distances_occurrences;
     char key[10];

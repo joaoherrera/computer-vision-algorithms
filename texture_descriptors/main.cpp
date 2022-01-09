@@ -27,6 +27,5 @@ Mat create_random_image(int width, int height){
 
 int main(int argc, char *argv[]){
     Mat image = create_random_image(5, 5);
-
     vector<int> texture_array = volumetric_bouligand_minkowski(image, 10);
 }
