@@ -1,5 +1,5 @@
-#ifndef __TEXTURE_DESCRIPTORS_H__
-#define __TEXTURE_DESCRIPTORS_H__
+#ifndef __VOLUMETRIC_H__
+#define __VOLUMETRIC_H__
 
 #include <stdio.h>
 #include <math.h>
