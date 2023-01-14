@@ -1,2 +1,3 @@
-# Computer Vision in CUDA
-Computer vision algorithms with high computational cost implemented using CUDA platform.
+# Computer Vision Algorithms
+
+Computer vision algorithms implemented in C/C++.
